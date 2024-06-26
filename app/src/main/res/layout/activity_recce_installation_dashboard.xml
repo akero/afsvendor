@@ -591,38 +591,92 @@
 
         </ScrollView>
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="57dp"
-            android:orientation= "horizontal"
-            android:layout_above= "@id/bottomline">
+            android:orientation="horizontal"
+            android:layout_above="@id/bottomline">
 
-            <Button
-                android:id= "@+id/btnReportIssue"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text= "Report Issue"
+            <TextView
+                android:id="@+id/tvTaskCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/card1"
+                app:layout_constraintStart_toStartOf="@id/card1"
+                app:layout_constraintTop_toTopOf="@id/card1"
+                app:layout_constraintBottom_toBottomOf="@id/card1"
+                android:elevation="10dp"
+                android:text="Report Issue"
+                android:clickable="true"
                 android:textSize="16sp"
-                android:fontFamily="@font/dmsansregular"
-                android:textAllCaps="false"
-                android:textColor="#071116"
-            />
+                android:textColor="#D9071116"
+                android:fontFamily="@font/dmsansregular" />
 
-            <Button
-                android:id= "@+id/btnStartInstallation"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="#0089BE"
+            <TextView
+                android:id="@+id/tvTaskCompleted1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/card2"
+                app:layout_constraintStart_toStartOf="@id/card2"
+                app:layout_constraintTop_toTopOf="@id/card2"
+                app:layout_constraintBottom_toBottomOf="@id/card2"
+                android:elevation="10dp"
+                android:text="Start Installation"
+                android:clickable="true"
                 android:textSize="16sp"
-                android:text= "Start Installation"
                 android:textColor="@color/white"
-                android:fontFamily="@font/dmsansregular"
-                android:textAllCaps="false"
-            />
-        </LinearLayout>
+                android:fontFamily="@font/dmsansregular" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="8dp"
+                android:id= "@+id/card1"
+                app:layout_constraintEnd_toStartOf="@id/card2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ImageView
+                    android:id="@+id/btnReportIssue"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:text="Report Issue"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/dmsansregular"
+                    android:textAllCaps="false"
+                    android:textColor="#071116" />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:cardElevation="8dp"
+                android:id= "@+id/card2"
+                app:cardCornerRadius="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/card1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+               >
+
+                <ImageView
+                    android:id="@+id/btnStartInstallation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#0089BE"
+                    android:textSize="16sp"
+                    android:text="Start Installation"
+                    android:textColor="@color/white"
+                    android:fontFamily="@font/dmsansregular"
+                    android:textAllCaps="false" />
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <View
             android:id= "@+id/bottomline"

@@ -167,9 +167,19 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
         });
 
 
-        
-        //Start install button
+
+
         binding.btnTaskCompleted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO api call
+
+            }
+        });
+
+//same as above
+        binding.tvTaskCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

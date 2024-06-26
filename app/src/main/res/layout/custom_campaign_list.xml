@@ -38,11 +38,12 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/dmsansregular"
         android:text="Site No. 004"
+        android:paddingEnd="12dp"
         android:layout_alignParentBottom="true"
         android:textColor="@color/white"
         android:layout_marginBottom="@dimen/_5sdp"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:textSize="@dimen/_14ssp" />
+        android:textSize="17sp" />
 
     <TextView
         android:id="@+id/tvUnitNo"
@@ -52,6 +53,7 @@
         android:layout_marginLeft="@dimen/_10sdp"
         android:fontFamily="@font/dmsansregular"
         android:text="Unit Id:- #4544004"
+        android:visibility="gone"
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp" />
 

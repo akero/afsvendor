@@ -83,6 +83,30 @@ public class RecceInstallationDashboard extends AppCompatActivity implements Api
                                                             }
                                                         });
 
+        //Start install button
+        binding.tvTaskCompleted1.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+
+                                                                Intent intent = new Intent(RecceInstallationDashboard.this, RecceInstallationLastPage.class);
+
+                                                                intent.putExtra("userid", id);
+                                                                intent.putExtra("logintoken", logintoken);
+                                                                intent.putExtra("projectid", projectId);
+                                                                startActivity(intent);
+
+                                                            }
+                                                        });
+
+
+        //Report issue button
+        binding.tvTaskCompleted.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+
+                                                            }
+                                                        });
+
 
                 Log.d("whichclass", "RecceInstallationDashboard");
         APIreferenceclass api = new APIreferenceclass(logintoken, this, id, projectId, 0);
