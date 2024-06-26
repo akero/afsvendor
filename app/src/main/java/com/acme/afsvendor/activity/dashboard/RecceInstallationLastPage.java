@@ -1,14 +1,30 @@
 package com.acme.afsvendor.activity.dashboard;
 
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -16,6 +32,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
 import com.acme.afsvendor.R;
+import com.acme.afsvendor.activity.login.OTP;
 import com.acme.afsvendor.databinding.ActivityRecceInstallationLastPageBinding;
 import com.acme.afsvendor.utility.RoundRectCornerImageView;
 import com.acme.afsvendor.viewmodel.APIreferenceclass;
@@ -23,8 +40,11 @@ import com.acme.afsvendor.viewmodel.ApiInterface;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class RecceInstallationLastPage extends AppCompatActivity implements ApiInterface {
     private ActivityRecceInstallationLastPageBinding binding;
@@ -32,6 +52,21 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
     int userid;
     String projectid;
     String logintoken;
+    ProgressBar progressBar;
+    Animation rotateAnimation;
+    int storephoto;//0 for init, 1 for store photo, 2 for sign, 3 for main upload with other stuff
+    int piccounter;
+    Boolean picturetaken;
+    Uri pic1takenURI, pic2takenURI, pic3takenURI;
+    static final int REQUEST_TAKE_PHOTO = 1;
+    boolean pic1taken, pic2taken, pic3taken;
+
+    private static final String[] REQUIRED_PERMISSIONS = {
+            Manifest.permission.CAMERA
+            ,Manifest.permission.READ_EXTERNAL_STORAGE
+    };
+
+    private static final int REQUEST_CODE_PERMISSIONS = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +78,17 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
         userid= 0;
         projectid= "";
         logintoken= "";
+        Button initialPicture;
+        Button intermediatePicture;
+        Button finalPicture;
+        picturetaken = false;
+        storephoto= 0;
+        piccounter= 0;
+        pic1takenURI= null; pic2takenURI= null; pic3takenURI= null;
+        //animation code
+        progressBar= findViewById(R.id.progressBar);
+        rotateAnimation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_animation);
+        //animation code
 
         try{
             userid= getIntent().getIntExtra("userid", 0);
@@ -53,6 +99,75 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
             Log.d("tag232", e.toString());
         }
 
+        initialPicture = findViewById(R.id.btnInitialPhoto);
+        intermediatePicture = findViewById(R.id.btnInstallingPhoto);
+        finalPicture = findViewById(R.id.btnEndPhoto);
+
+        initialPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("camera", "click registered");
+                if (ContextCompat.checkSelfPermission(RecceInstallationLastPage.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {//||ContextCompat.checkSelfPermission(ViewSiteDetailActivity.this, WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(RecceInstallationLastPage.this, "Please give camera permissions", Toast.LENGTH_SHORT).show();
+
+                    ActivityCompat.requestPermissions(RecceInstallationLastPage.this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+                    Log.d("camera", "dont have permission");
+                } else {
+
+
+
+                    storephoto= 0;
+                    piccounter= 1;
+                    openCamera();
+                }
+            }
+        });
+
+        intermediatePicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("camera", "click registered");
+                if (ContextCompat.checkSelfPermission(RecceInstallationLastPage.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {//||ContextCompat.checkSelfPermission(ViewSiteDetailActivity.this, WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(RecceInstallationLastPage.this, "Please give camera permissions", Toast.LENGTH_SHORT).show();
+
+                    ActivityCompat.requestPermissions(RecceInstallationLastPage.this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+                    Log.d("camera", "dont have permission");
+                } else {
+
+
+
+                    storephoto= 1;
+                    piccounter= 2;
+                    openCamera();
+                }
+            }
+        });
+
+        finalPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("camera", "click registered");
+                if (ContextCompat.checkSelfPermission(RecceInstallationLastPage.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {//||ContextCompat.checkSelfPermission(ViewSiteDetailActivity.this, WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+
+                    Toast.makeText(RecceInstallationLastPage.this, "Please give camera permissions", Toast.LENGTH_SHORT).show();
+
+                    ActivityCompat.requestPermissions(RecceInstallationLastPage.this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+                    Log.d("camera", "dont have permission");
+                } else {
+
+
+
+                    storephoto= 2;
+                    piccounter= 3;
+                    openCamera();
+                }
+            }
+        });
+
+
+        
         //Start install button
         binding.btnTaskCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +184,162 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
         APIreferenceclass api = new APIreferenceclass(logintoken, this, userid, projectid, 0);
 
     }
+
+    Uri photoURI;
+
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        photoURI = null;
+        // if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+        File photoFile = null;
+        try {
+            photoFile = createImageFile();
+        } catch (IOException ex) {
+            // Handle error
+        }
+        if (photoFile != null) {
+            photoURI = FileProvider.getUriForFile(RecceInstallationLastPage.this,
+                    "com.acme.afsvendor.fileprovider",
+                    photoFile);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+
+            Log.d("opencamerauri", photoURI.toString());
+            startActivityForResult(cameraIntent, REQUEST_TAKE_PHOTO);
+        }
+        //   } else {
+        //         Log.d("camera", "no permission1");
+        //        Toast.makeText(RecceDashboardActivity.this, "Don't have camera permissions", Toast.LENGTH_SHORT).show();
+
+        //   }
+    }
+
+
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = getFilesDir();
+        Log.d("tag222", "created image");
+        File imageFile = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        return imageFile;
+    }
+
+
+    Uri imageUri;
+    boolean allpicturestaken;
+
+    @SuppressLint("ResourceAsColor")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
+            // Image captured successfully
+            // Access the image file using the Uri you provided earlier
+
+            // Log.d("tag22", data.toString());
+            Uri imageUri1;
+
+            try {
+                imageUri = FileProvider.getUriForFile(this,
+                        "com.acme.afsvendor.fileprovider",
+                        createImageFile());
+                imageUri1= imageUri;
+                Log.d("tag222", imageUri.toString());
+
+                if(piccounter== 1){
+                    Log.d("pic", "1");
+                    pic1taken= true;
+                    binding.btnInitialPhoto.setText("Retake Initial Picture");
+                    binding.btnInitialPhoto.setBackgroundResource(R.drawable.primarystrokegreen);
+                    pic1takenURI= photoURI;
+                }else if(piccounter== 2){
+                    pic2taken= true;
+                    binding.btnInstallingPhoto.setText("Retake Picture While Installing");
+                    binding.btnInstallingPhoto.setBackgroundResource(R.drawable.primarystrokegreen);
+
+                    Log.d("pic", "2");
+                    pic2takenURI= photoURI;
+                }else if(piccounter== 3){
+                    pic3taken= true;
+                    binding.btnEndPhoto.setText("Retake Final Picture");
+                    binding.btnEndPhoto.setBackgroundResource(R.drawable.primarystrokegreen);
+
+                    Log.d("pic", "3");
+                    pic3takenURI= photoURI;
+                }
+                if(pic1taken&&pic2taken&&pic3taken){
+                    allpicturestaken= true;
+                    Log.d("pic", "allpicturetakentrue");
+
+                }
+
+
+                picturetaken = true;
+
+                Log.d("tag22", "activity result works");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Image update failed", Toast.LENGTH_SHORT).show();
+            }
+            // Do something with the imageUri, e.g., display the image or upload it
+        }
+        else {
+            Log.d("tag22", "something went wrong");
+        }
+    }
+
+    void logout() {
+
+        try {
+            FileHelper fh = new FileHelper();
+            fh.writeUserType(this, "");
+
+            Intent intent= new Intent(RecceInstallationLastPage.this, OTP.class);
+            startActivity(intent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            boolean cameraGranted = false;
+            boolean locationGranted = false;
+            boolean storageGranted = false;
+            for (int i = 0; i < permissions.length; i++) {
+                if (permissions[i].equals(Manifest.permission.CAMERA) && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    cameraGranted = true;
+                    Log.d("permissions", "camera");
+                } else if (permissions[i].equals(Manifest.permission.ACCESS_COARSE_LOCATION) && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    locationGranted = true;
+
+                    Log.d("permissions", "location");
+                } else if (permissions[i].equals(WRITE_EXTERNAL_STORAGE) && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    storageGranted = true;
+
+                    Log.d("permissions", "storage");
+                }
+            }
+
+            if (cameraGranted) {
+                openCamera();
+            } else {
+                // At least one permission was denied, handle accordingly
+                Toast.makeText(RecceInstallationLastPage.this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+
+            }
+        }
+
+    }
+
 
     void implementUI(String response) {
 
@@ -87,8 +358,8 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
             binding.tvTotalArea.setText(jsonobj.getString("owner_name"));
             binding.tvMediaType.setText(jsonobj.getString("email"));
             binding.tvIllumination.setText(jsonobj.getString("mobile"));
-            binding.tvLatitude1.setText(jsonobj.getString("lat"));
-            binding.tvLongitude1.setText(jsonobj.getString("long"));
+            binding.tvLatitude1.setText(jsonobj.getString("lat").substring(0, 8));
+            binding.tvLongitude1.setText(jsonobj.getString("long").substring(0, 8));
             binding.tvLatitude.setText(jsonobj.getString("location"));
 
             RoundRectCornerImageView tvImage = findViewById(R.id.ivCampaignImage);

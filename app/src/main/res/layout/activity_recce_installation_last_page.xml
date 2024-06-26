@@ -127,13 +127,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/dmsansregular"
-                            android:text="ASM name"
+                            android:text="Location"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_10ssp" />
 
                         <TextView
-                            android:id="@+id/etSiteNo"
+                            android:id="@+id/tvLatitude"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tvSiteno"
@@ -262,13 +262,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/dmsansregular"
-                            android:text="Location"
+                            android:text="ASM name"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_10ssp" />
 
                         <TextView
-                            android:id="@+id/tvLatitude"
+                            android:id="@+id/etSiteNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_2sdp"
@@ -575,12 +575,64 @@
                     android:src="@drawable/temp_campaign" />
 
                 <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:elevation= "1dp"
+                    android:id= "@+id/line111"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#D9D9D9"
+                    android:layout_below= "@+id/ivCampaignImage1"
+                    />
+
+                <Button
+                    android:id="@+id/btnInitialPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/line111"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/primarystroke"
+                    android:clickable= "true"
+                    android:fontFamily="@font/dmsansregular"
+                    android:text="Initial Picture"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14ssp" />
+
+                <Button
+                    android:id="@+id/btnInstallingPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btnInitialPhoto"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/primarystroke"
+                    android:clickable= "true"
+                    android:fontFamily="@font/dmsansregular"
+                    android:text="Picture While Installing"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14ssp" />
+
+                <Button
+                    android:id="@+id/btnEndPhoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/btnInstallingPhoto"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:background="@drawable/primarystroke"
+                    android:clickable= "true"
+                    android:fontFamily="@font/dmsansregular"
+                    android:text="Final Picture"
+                    android:textAllCaps="false"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/_14ssp" />
+
+                <View
                     android:id= "@+id/emptyspace"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="46dp"
                     android:layout_alignParentBottom="true"
-
-                    android:layout_below="@id/ivCampaignImage1"
+                    android:layout_below="@id/btnEndPhoto"
                     />
 
 
@@ -604,6 +656,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="#0089BE"
                 android:text= "Task Completed"
+                android:textSize="16sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/dmsansregular"
                 android:textAllCaps="false"

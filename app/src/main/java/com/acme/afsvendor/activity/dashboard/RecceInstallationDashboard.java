@@ -106,8 +106,8 @@ public class RecceInstallationDashboard extends AppCompatActivity implements Api
             binding.tvTotalArea.setText(jsonobj.getString("owner_name"));
             binding.tvMediaType.setText(jsonobj.getString("email"));
             binding.tvIllumination.setText(jsonobj.getString("mobile"));
-            binding.tvLatitude1.setText(jsonobj.getString("lat"));
-            binding.tvLongitude1.setText(jsonobj.getString("long"));
+            binding.tvLatitude1.setText(jsonobj.getString("lat").substring(0,8));
+            binding.tvLongitude1.setText(jsonobj.getString("long").substring(0,8));
             binding.tvLatitude.setText(jsonobj.getString("location"));
 
             RoundRectCornerImageView tvImage = findViewById(R.id.ivCampaignImage);

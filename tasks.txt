@@ -2,8 +2,10 @@ DO GIT RESET HARD RESET
 
 Ship
 
-change back in otp class 221 once install done
+change back in contentotp class 221 once install done
+and line 78 in otp
 
+api call in receinstallationlastpage
 
 //date and time, remove icon- code
 //area- code

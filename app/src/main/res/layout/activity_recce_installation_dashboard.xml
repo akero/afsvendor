@@ -127,13 +127,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/dmsansregular"
-                            android:text="ASM name"
+                            android:text="Location"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_10ssp" />
 
                         <TextView
-                            android:id="@+id/etSiteNo"
+                            android:id="@+id/tvLatitude"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/tvSiteno"
@@ -262,13 +262,13 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/dmsansregular"
-                            android:text="Location"
+                            android:text="ASM name"
                             android:layout_marginTop="@dimen/_10sdp"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_10ssp" />
 
                         <TextView
-                            android:id="@+id/tvLatitude"
+                            android:id="@+id/etSiteNo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_2sdp"
@@ -604,6 +604,7 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/white"
                 android:text= "Report Issue"
+                android:textSize="16sp"
                 android:fontFamily="@font/dmsansregular"
                 android:textAllCaps="false"
                 android:textColor="#071116"
@@ -615,6 +616,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="#0089BE"
+                android:textSize="16sp"
                 android:text= "Start Installation"
                 android:textColor="@color/white"
                 android:fontFamily="@font/dmsansregular"
