@@ -45,12 +45,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 public class RecceInstallationLastPage extends AppCompatActivity implements ApiInterface {
     private ActivityRecceInstallationLastPageBinding binding;
 
     int userid;
     String projectid;
+    boolean wassendbuttonpressed;
     String logintoken;
     ProgressBar progressBar;
     Animation rotateAnimation;
@@ -77,6 +79,7 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
         //initializing
         userid= 0;
         projectid= "";
+        wassendbuttonpressed= false;
         logintoken= "";
         Button initialPicture;
         Button intermediatePicture;
@@ -84,6 +87,7 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
         picturetaken = false;
         storephoto= 0;
         piccounter= 0;
+        pic1taken= false; pic2taken= false; pic3taken= false;
         pic1takenURI= null; pic2takenURI= null; pic3takenURI= null;
         //animation code
         progressBar= findViewById(R.id.progressBar);
@@ -172,10 +176,27 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
         binding.btnTaskCompleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    if (!allpicturestaken) {
+                        Toast.makeText(RecceInstallationLastPage.this, "Please take all three pictures.", Toast.LENGTH_SHORT).show();
+                        //Log.d("tag222", "1"+ binding.etHeight.getText().toString()+ "2"+ binding.etWidth.getText().toString()+"3"+ "4"+ binding.etWidth1.getText().toString()+"5"+ binding.etHeight2.getText().toString()+"6"+ binding.etWidth2.getText().toString()+"7"+ binding.etHeight3.getText().toString()+"8"+ binding.etWidth3.getText().toString()+"9"+ binding.etHeight4.getText().toString()+"10"+ binding.etWidth4.getText().toString()+"11"+ binding.etHeight5.getText().toString()+"12"+ binding.etWidth5.getText().toString()+"13"+ "14"+"15"+ Boolean.toString(pictureandlatlongready));
+                        wassendbuttonpressed= true;
+                        //progressBar.setVisibility(View.VISIBLE);
+                        //progressBar.startAnimation(rotateAnimation);
+                        //latlong();
+                    } else {
+                        //api call
 
-                //TODO api call
+                        //animation code
+                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.startAnimation(rotateAnimation);
+                        //animation code
+                        apicall();
 
-            }
+                    }
+
+                    //TODO add check for image
+                }
+
         });
 
 //same as above
@@ -183,9 +204,29 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
             @Override
             public void onClick(View view) {
 
-                //TODO api call
 
+                if (!allpicturestaken) {
+                    Toast.makeText(RecceInstallationLastPage.this, "Please take all three pictures.", Toast.LENGTH_SHORT).show();
+                    //Log.d("tag222", "1"+ binding.etHeight.getText().toString()+ "2"+ binding.etWidth.getText().toString()+"3"+ "4"+ binding.etWidth1.getText().toString()+"5"+ binding.etHeight2.getText().toString()+"6"+ binding.etWidth2.getText().toString()+"7"+ binding.etHeight3.getText().toString()+"8"+ binding.etWidth3.getText().toString()+"9"+ binding.etHeight4.getText().toString()+"10"+ binding.etWidth4.getText().toString()+"11"+ binding.etHeight5.getText().toString()+"12"+ binding.etWidth5.getText().toString()+"13"+ "14"+"15"+ Boolean.toString(pictureandlatlongready));
+                    wassendbuttonpressed= true;
+                    //progressBar.setVisibility(View.VISIBLE);
+                    //progressBar.startAnimation(rotateAnimation);
+                    //latlong();
+                } else {
+                    //api call
+
+                    //animation code
+                    progressBar.setVisibility(View.VISIBLE);
+                    progressBar.startAnimation(rotateAnimation);
+                    //animation code
+                    apicall();
+
+                }
+
+                //TODO add check for image
             }
+
+
         });
 
 
@@ -193,6 +234,37 @@ public class RecceInstallationLastPage extends AppCompatActivity implements ApiI
         Log.d("whichclass", "RecceInstallationDashboard");
         APIreferenceclass api = new APIreferenceclass(logintoken, this, userid, projectid, 0);
 
+    }
+
+    void apicall() {
+
+        JSONObject jsonPayload = new JSONObject();
+        try {
+
+            //jsonPayload.put("project", binding.etHeight1.getText().toString());
+
+
+            //jsonPayload.put("area", binding.etWidth.getText().toString());
+
+
+
+            FileHelper fh = new FileHelper();
+            jsonPayload.put("created_by", fh.readUserId(this));
+
+        } catch (Exception e) {
+            Log.d("tg6", e.toString());
+        }
+        //Log.d("tg6", imageUri.toString());
+        //apiboolean= 1;
+
+        //Log.d("tg66", jsonPayload.toString());
+
+
+
+        //TODO change url
+
+        APIreferenceclass api = new APIreferenceclass(jsonPayload, this, logintoken, pic1takenURI, pic2takenURI,pic3takenURI);
+        imageUri = null;
     }
 
     Uri photoURI;

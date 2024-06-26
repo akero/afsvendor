@@ -737,6 +737,92 @@ public class APIreferenceclass {
         }
     }
 
+
+    //add recce install details and site image
+    public APIreferenceclass(JSONObject jsonPayload1, Context context, String logintoken,  Uri photo1, Uri photo2, Uri photo3) {
+
+        //TODO change url
+        String url = "https://acme.warburttons.com/api/project";
+        querytype = 1; // POST
+
+        Log.d("tg912", jsonPayload1.toString());
+
+        if (photo1 != null || photo2 != null || photo3 != null) {
+            // Prepare multipart body
+            String boundary = "----WebKitFormBoundary7MA4YWxkTrZu0gW";
+            StringBuilder bodyBuilder = new StringBuilder();
+
+            // Add JSON fields to multipart body
+            Iterator<String> keys = jsonPayload1.keys();
+            while (keys.hasNext()) {
+                String key = keys.next();
+                bodyBuilder.append("--").append(boundary).append("\r\n");
+                bodyBuilder.append("Content-Disposition: form-data; name=\"").append(key).append("\"\r\n\r\n");
+                bodyBuilder.append(jsonPayload1.optString(key)).append("\r\n");
+            }
+
+            Log.d("pics", photo1.toString() + " " + photo2.toString() + " " + photo3.toString() );
+
+            // Add photo parts to multipart body
+            ByteArrayOutputStream multipartOutputStream = new ByteArrayOutputStream();
+            byte[] initialPartBytes = bodyBuilder.toString().getBytes(StandardCharsets.UTF_8);
+            try {
+
+                multipartOutputStream.write(initialPartBytes);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            // Add photo1
+            if (photo1 != null) {
+                addPhotoToMultipart(multipartOutputStream, boundary, photo1, "image1", context);
+            }
+
+            // Add photo2
+            if (photo2 != null) {
+                addPhotoToMultipart(multipartOutputStream, boundary, photo2, "image2", context);
+            }
+
+            // Add photo3
+            if (photo3 != null) {
+                addPhotoToMultipart(multipartOutputStream, boundary, photo3, "image3", context);
+            }
+
+            // Write the final boundary
+            String finalBoundary = "\r\n--" + boundary + "--\r\n";
+            try{
+                multipartOutputStream.write(finalBoundary.getBytes(StandardCharsets.UTF_8));
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            // Final multipart body
+            final byte[] multipartBody = multipartOutputStream.toByteArray();
+
+            // Set headers for multipart request
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", "Bearer " + logintoken);
+            headers.put("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+            // Call API with multipart data
+            Log.d("tg97", "multipart");
+
+            try {
+                saveByteArrayToFile(context, multipartBody, "apicall");
+            } catch (Exception e) {
+                // Handle exception
+            }
+
+            callapi2(headers, multipartBody, context, 1, url); // Using POST method
+        } else {
+            // Existing JSON payload handling
+            String jsonPayload = jsonPayload1.toString();
+            Map<String, String> headers = new HashMap<>();
+            headers.put("Authorization", "Bearer " + logintoken);
+            headers.put("Content-Type", "application/json");
+
+            callapi(headers, jsonPayload, context, 1, url); // Using POST method
+        }
+    }
+
     private void addPhotoToMultipart(ByteArrayOutputStream multipartOutputStream, String boundary, Uri photoUri, String fieldName, Context context) {
         // Read file content from Uri
         byte[] fileBytes = readFileContent(context, photoUri);
