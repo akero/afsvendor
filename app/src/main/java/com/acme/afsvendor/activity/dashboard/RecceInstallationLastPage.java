@@ -1,66 +1,76 @@
 package com.acme.afsvendor.activity.dashboard;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 
 import com.acme.afsvendor.R;
+import com.acme.afsvendor.databinding.ActivityRecceInstallationLastPageBinding;
 import com.acme.afsvendor.utility.RoundRectCornerImageView;
 import com.acme.afsvendor.viewmodel.APIreferenceclass;
 import com.acme.afsvendor.viewmodel.ApiInterface;
-import com.acme.afsvendor.databinding.ActivityRecceHistoryDetailsBinding;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
 
-public class RecceHistoryDetails extends AppCompatActivity implements ApiInterface {
-    int id;
-    String logintoken;
-    String projectId;
+public class RecceInstallationLastPage extends AppCompatActivity implements ApiInterface {
+    private ActivityRecceInstallationLastPageBinding binding;
 
-    ActivityRecceHistoryDetailsBinding binding;
+    int userid;
+    String projectid;
+    String logintoken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //setContentView(R.layout.activity_recce_history_details);
+        binding= DataBindingUtil.setContentView(this, R.layout.activity_recce_installation_last_page);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_recce_history_details);
-
-
-        id= 0;
+        //initializing
+        userid= 0;
+        projectid= "";
         logintoken= "";
-        projectId= "";
-
-        Log.d("whichclass", "reccehistorydetails");
 
         try{
-
-            id= getIntent().getIntExtra("userid", 0);
+            userid= getIntent().getIntExtra("userid", 0);
+            projectid= getIntent().getStringExtra("projectid");
             logintoken= getIntent().getStringExtra("logintoken");
-            projectId= getIntent().getStringExtra("id");;
 
-            Log.d("id", id+" projectid "+ projectId);
-        }catch(Exception e){
-            Log.d("asdsad", e.toString());
+        }catch (Exception e){
+            Log.d("tag232", e.toString());
         }
 
+        //Start install button
+        binding.btnTaskCompleted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO api call
+
+            }
+        });
 
 
-        APIreferenceclass api= new APIreferenceclass(logintoken, this, id, projectId, 0);
+
+        Log.d("whichclass", "RecceInstallationDashboard");
+        APIreferenceclass api = new APIreferenceclass(logintoken, this, userid, projectid, 0);
 
     }
 
-    void implementUI(String response){
+    void implementUI(String response) {
 
         try {
             JSONObject jsonobj1 = new JSONObject(response);
@@ -84,22 +94,22 @@ public class RecceHistoryDetails extends AppCompatActivity implements ApiInterfa
             RoundRectCornerImageView tvImage = findViewById(R.id.ivCampaignImage);
             if (jsonobj.getString("image1") != null) {
                 Log.d("tg2", "image code executing");
-                new LoadImageAsyncTask(tvImage).execute("https://acme.warburttons.com/" + jsonobj.getString("image1"));
+                new RecceInstallationLastPage.LoadImageAsyncTask(tvImage).execute("https://acme.warburttons.com/" + jsonobj.getString("image1"));
             }
 
             RoundRectCornerImageView tvImage1 = findViewById(R.id.ivCampaignImage1);
             if (jsonobj.getString("owner_signature") != null) {
                 Log.d("tg2", "image code executing");
-                new LoadImageAsyncTask(tvImage1).execute("https://acme.warburttons.com/" + jsonobj.getString("owner_signature"));
+                new RecceInstallationLastPage.LoadImageAsyncTask(tvImage1).execute("https://acme.warburttons.com/" + jsonobj.getString("owner_signature"));
             }
 
 
-
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
     private class LoadImageAsyncTask extends AsyncTask<String, Void, Bitmap> {
         private RoundRectCornerImageView imageView;
 
@@ -128,14 +138,15 @@ public class RecceHistoryDetails extends AppCompatActivity implements ApiInterfa
             }
         }
     }
+
     @Override
-    public void onResponseReceived(String response){
+    public void onResponseReceived(String response) {
 
         Log.d("response", response);
-        try{
+        try {
 
-            JSONObject jsonobj1= new JSONObject(response);
-            if(jsonobj1.getString("message").equals("Data fetched successfully!")){
+            JSONObject jsonobj1 = new JSONObject(response);
+            if (jsonobj1.getString("message").equals("Data fetched successfully!")) {
 
 
                 runOnUiThread(new Runnable() {
@@ -147,13 +158,10 @@ public class RecceHistoryDetails extends AppCompatActivity implements ApiInterfa
             }
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-
     }
-
-
-}
+    }

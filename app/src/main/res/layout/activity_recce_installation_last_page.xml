@@ -598,29 +598,18 @@
             android:layout_above= "@id/bottomline">
 
             <Button
-                android:id= "@+id/btnReportIssue"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:backgroundTint="@color/white"
-                android:text= "Report Issue"
-                android:fontFamily="@font/dmsansregular"
-                android:textAllCaps="false"
-                android:textColor="#071116"
-            />
-
-            <Button
-                android:id= "@+id/btnStartInstallation"
+                android:id= "@+id/btnTaskCompleted"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:backgroundTint="#0089BE"
-                android:text= "Start Installation"
+                android:text= "Task Completed"
                 android:textColor="@color/white"
                 android:fontFamily="@font/dmsansregular"
                 android:textAllCaps="false"
-            />
-        </LinearLayout>
+                />
+
+             </LinearLayout>
 
         <View
             android:id= "@+id/bottomline"

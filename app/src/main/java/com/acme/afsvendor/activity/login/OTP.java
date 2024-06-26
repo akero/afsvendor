@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.acme.afsvendor.activity.dashboard.FileHelper;
 import com.acme.afsvendor.activity.dashboard.RecceHistory;
+import com.acme.afsvendor.activity.dashboard.RecceInstallation;
 import com.acme.afsvendor.viewmodel.APIreferenceclass;
 import com.acme.afsvendor.viewmodel.ApiInterface;
 
@@ -75,7 +76,8 @@ public class OTP extends AppCompatActivity implements ApiInterface {
 
         if(userTypeCheck != null && userTypeCheck.equals("supervisor")){
 
-            Intent intent= new Intent(OTP.this, RecceHistory.class);
+            //TODO change
+            Intent intent= new Intent(OTP.this, RecceInstallation.class);
             intent.putExtra("logintoken", logintoken);
             intent.putExtra("recceid", userid);
 

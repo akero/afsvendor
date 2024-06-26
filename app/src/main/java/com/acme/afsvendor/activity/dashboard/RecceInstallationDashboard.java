@@ -1,12 +1,13 @@
 package com.acme.afsvendor.activity.dashboard;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -44,6 +45,8 @@ public class RecceInstallationDashboard extends AppCompatActivity implements Api
         logintoken = "";
         projectId = "";
 
+
+
         try {
 
             id = getIntent().getIntExtra("userid", 0);
@@ -56,7 +59,32 @@ public class RecceInstallationDashboard extends AppCompatActivity implements Api
             Log.d("asdsad", e.toString());
         }
 
+        //Start install button
+        binding.btnStartInstallation.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
 
+                                                                Intent intent = new Intent(RecceInstallationDashboard.this, RecceInstallationLastPage.class);
+
+                                                                intent.putExtra("userid", id);
+                                                                intent.putExtra("logintoken", logintoken);
+                                                                intent.putExtra("projectid", projectId);
+                                                                startActivity(intent);
+
+                                                            }
+                                                        });
+
+
+        //Report issue button
+        binding.btnReportIssue.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View view) {
+
+                                                            }
+                                                        });
+
+
+                Log.d("whichclass", "RecceInstallationDashboard");
         APIreferenceclass api = new APIreferenceclass(logintoken, this, id, projectId, 0);
 
     }

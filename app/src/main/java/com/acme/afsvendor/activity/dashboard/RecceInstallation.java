@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -57,7 +56,7 @@ public class RecceInstallation extends AppCompatActivity implements ApiInterface
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_recce_history);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_recce_installation);
         campaignName="";
         btn= 0;
 
@@ -114,7 +113,7 @@ public class RecceInstallation extends AppCompatActivity implements ApiInterface
         );
         binding.rvCampaignList.setLayoutManager(layoutManager);
 
-        Log.d("whichclass", "ViewVendorSites");
+        Log.d("whichclass", "RecceInstalltion");
 
         binding.ivPlus.setVisibility(View.GONE);
 
@@ -295,7 +294,7 @@ public class RecceInstallation extends AppCompatActivity implements ApiInterface
             //TODO change this
 
             // Start new activity and pass the retrieved data
-            startActivity(new Intent(this, RecceHistoryDetails.class)
+            startActivity(new Intent(this, RecceInstallationDashboard.class)
                     .putExtra("id", id1)
                     .putExtra("camefrom", "RecceHistory")
                     .putExtra("userid", id)
@@ -351,7 +350,7 @@ public class RecceInstallation extends AppCompatActivity implements ApiInterface
                                 Log.d("tag41", "imageurl is " + imageUrl);
                                 if (imageUrl != "null" && !imageUrl.isEmpty()) {
                                     URL url = new URL(imageUrl);
-                                    Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                    //Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                                     //siteDetail.setImage(bitmap);
                                 }
                             } catch (Exception e) {

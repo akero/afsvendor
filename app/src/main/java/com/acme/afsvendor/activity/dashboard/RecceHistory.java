@@ -110,7 +110,7 @@ public class RecceHistory extends AppCompatActivity implements ApiInterface {
         );
         binding.rvCampaignList.setLayoutManager(layoutManager);
 
-        Log.d("whichclass", "ViewVendorSites");
+        Log.d("whichclass", "RecceHistory");
 
         binding.ivPlus.setVisibility(View.GONE);
 
@@ -347,7 +347,7 @@ public class RecceHistory extends AppCompatActivity implements ApiInterface {
                                 Log.d("tag41", "imageurl is " + imageUrl);
                                 if (imageUrl != "null" && !imageUrl.isEmpty()) {
                                     URL url = new URL(imageUrl);
-                                    Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                                    //Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
                                     //siteDetail.setImage(bitmap);
                                 }
                             } catch (Exception e) {

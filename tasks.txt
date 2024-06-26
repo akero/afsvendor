@@ -2,6 +2,8 @@ DO GIT RESET HARD RESET
 
 Ship
 
+change back in otp class 221 once install done
+
 
 //date and time, remove icon- code
 //area- code

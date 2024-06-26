@@ -220,6 +220,8 @@ public class ContentOtp extends AppCompatActivity implements ApiInterface {
 
                 //TODO change here
                 Intent intent= new Intent(ContentOtp.this, RecceInstallation.class);
+                Log.d("tag232", "recceinstallation");
+
                 intent.putExtra("logintoken", token);
                 intent.putExtra("recceid", recceid);
 
