@@ -21,6 +21,7 @@ import com.acme.afsvendor.activity.dashboard.AdminDashboardActivity;
 import com.acme.afsvendor.activity.dashboard.ClientDashBoardActivity;
 import com.acme.afsvendor.activity.dashboard.FileHelper;
 import com.acme.afsvendor.activity.dashboard.RecceAsmDashboard;
+import com.acme.afsvendor.activity.dashboard.RecceDashboardActivity;
 import com.acme.afsvendor.activity.dashboard.RecceHistory;
 import com.acme.afsvendor.activity.dashboard.RecceInstallation;
 import com.acme.afsvendor.activity.vender.VenderDashBoardActivity;
@@ -207,6 +208,7 @@ public class ContentOtp extends AppCompatActivity implements ApiInterface {
                 Intent intent= new Intent(ContentOtp.this, ClientDashBoardActivity.class);
                 intent.putExtra("logintoken", token);
                 intent.putExtra("clientid", clientid);
+                
 //TODO remove after login api done
                 //Intent intent1= new Intent(ContentOtp.this, RecceDashboardActivity.class);
                 //intent1.putExtra("logintoken", token);
@@ -219,8 +221,8 @@ public class ContentOtp extends AppCompatActivity implements ApiInterface {
 
 
                 //TODO change here
-                Intent intent= new Intent(ContentOtp.this, RecceInstallation.class);
-                Log.d("tag232", "recceinstallation");
+                Intent intent= new Intent(ContentOtp.this, RecceDashboardActivity.class);
+                Log.d("tag232", "reccedash");
 
                 intent.putExtra("logintoken", token);
                 intent.putExtra("recceid", recceid);
@@ -228,6 +230,7 @@ public class ContentOtp extends AppCompatActivity implements ApiInterface {
                 loadingSpinner();
                 startActivity(intent);
             }
+            //todo add installation login
             else if(loginType.equals("asm")){
 
                 Intent intent= new Intent(ContentOtp.this, RecceAsmDashboard.class);
