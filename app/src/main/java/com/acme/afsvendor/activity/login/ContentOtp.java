@@ -208,19 +208,11 @@ public class ContentOtp extends AppCompatActivity implements ApiInterface {
                 Intent intent= new Intent(ContentOtp.this, ClientDashBoardActivity.class);
                 intent.putExtra("logintoken", token);
                 intent.putExtra("clientid", clientid);
-                
-//TODO remove after login api done
-                //Intent intent1= new Intent(ContentOtp.this, RecceDashboardActivity.class);
-                //intent1.putExtra("logintoken", token);
-//                intent1.putExtra("recceasmid", recceasmid);
 
                 loadingSpinner();
-
                 startActivity(intent);
             }else if(loginType.equals("supervisor")){
 
-
-                //TODO change here
                 Intent intent= new Intent(ContentOtp.this, RecceDashboardActivity.class);
                 Log.d("tag232", "reccedash");
 
